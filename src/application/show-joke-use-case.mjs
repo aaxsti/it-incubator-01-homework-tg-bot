@@ -8,21 +8,22 @@ export function createGetJokeUseCase({ fetchJoke }) {
 
     if (!jokeCategories.includes(normalizedCategory)) {
       return {
-        message: `Unknown category. Choose one of: ${jokeCategories.join(', ')}.`,
+        message: `⚠️ Unknown category. Choose one of: ${jokeCategories.join(', ')}.`,
         isUserError: true,
       };
     }
 
     try {
       const joke = await fetchJoke(normalizedCategory);
-      const message = joke.type === 'twopart'
+      const jokeText = joke.type === 'twopart'
         ? `${joke.setup}\n${joke.delivery}`
         : joke.joke;
+      const message = `😂 ${jokeText}`;
 
       return { message, isUserError: false };
     } catch {
       return {
-        message: 'Sorry, I could not fetch a joke right now. Please try again later.',
+        message: '⚠️ Sorry, I could not fetch a joke right now. Please try again later.',
         isUserError: true,
       };
     }
