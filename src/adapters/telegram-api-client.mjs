@@ -22,6 +22,7 @@ export function createTelegramApiClient({ token }) {
 
   return {
     sendMessage: (chatId, text) => call('sendMessage', { chat_id: chatId, text }),
+    sendPhoto: (chatId, photo, caption) => call('sendPhoto', { chat_id: chatId, photo, caption }),
     setWebhook: (url, secretToken) => call('setWebhook', {
       url,
       secret_token: secretToken,

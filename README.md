@@ -16,7 +16,8 @@ The backend uses a three-layer architecture. Dependencies point inward from the 
 - `GET /weather?city=Istanbul` returns current weather from Open-Meteo.
 - `GET /joke` fetches a safe-mode joke from JokeAPI through the application layer and returns it as JSON.
 - `GET /joke?category=Programming` requests a joke by category. Supported categories are `Any`, `Programming`, `Misc`, `Dark`, `Pun`, `Spooky`, and `Christmas`.
-- In Telegram, use `/convert 10 USD EUR` to convert currencies, `/weather Istanbul` for current weather, or `/joke` and `/joke Programming` for jokes. `/help` lists the supported bot commands.
+- `GET /dog` returns a random dog image URL from Dog CEO.
+- In Telegram, use `/convert 10 USD EUR` to convert currencies, `/weather Istanbul` for current weather, `/joke` and `/joke Programming` for jokes, or `/dog` to receive a random dog photo. `/help` lists the supported bot commands.
 - Telegram sends messages to `POST /telegram/webhook`. At startup the app registers `TELEGRAM_WEBHOOK_URL` with Telegram, defaulting to `https://desktop-7m4fs3b.tail7506bd.ts.net`. The endpoint verifies Telegram's secret header. The bot token is imported from the ignored `token.mjs` file as `TELEGRAM_BOT_TOKEN`.
 
 The HTTP routes expose command responses as JSON, while Telegram messages arrive through the webhook endpoint.

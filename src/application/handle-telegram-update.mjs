@@ -1,4 +1,4 @@
-export function createTelegramUpdateHandler({ botCommands, sendMessage }) {
+export function createTelegramUpdateHandler({ botCommands, sendMessage, sendPhoto }) {
   return async function handleTelegramUpdate(update) {
     const message = update.message;
     const text = message?.text?.trim();
@@ -14,6 +14,7 @@ export function createTelegramUpdateHandler({ botCommands, sendMessage }) {
       '/convert': botCommands.convert,
       '/weather': botCommands.weather,
       '/joke': botCommands.joke,
+      '/dog': botCommands.dog,
       '/help': botCommands.help,
       '/commands': botCommands.help,
     };
@@ -27,6 +28,10 @@ export function createTelegramUpdateHandler({ botCommands, sendMessage }) {
     const result = command === '/convert'
       ? await handler(...(argument ?? '').split(/\s+/))
       : await handler(['/joke', '/weather'].includes(command) ? argument : undefined);
+    if (command === '/dog' && result.photoUrl) {
+      await sendPhoto(message.chat.id, result.photoUrl, result.caption);
+      return;
+    }
     const reply = typeof result === 'string' ? result : result.message;
     await sendMessage(message.chat.id, reply);
   };

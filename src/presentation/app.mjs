@@ -21,6 +21,10 @@ export function createApp({ botCommands, handleTelegramUpdate, webhookSecret }) 
     const result = await botCommands.joke(context.req.query('category') ?? 'Any');
     return context.json({ message: result.message });
   });
+  app.get('/dog', async (context) => {
+    const result = await botCommands.dog();
+    return context.json(result.photoUrl ? { imageUrl: result.photoUrl, caption: result.caption } : { message: result.message });
+  });
 
   app.post('/telegram/webhook', async (context) => {
     if (context.req.header('x-telegram-bot-api-secret-token') !== webhookSecret) {
