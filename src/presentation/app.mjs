@@ -13,7 +13,10 @@ export function createApp({ botCommands, handleTelegramUpdate, webhookSecret }) 
     );
     return context.json({ message: result.message });
   });
-  app.get('/weather', (context) => context.json({ message: botCommands.weather() }));
+  app.get('/weather', async (context) => {
+    const result = await botCommands.weather(context.req.query('city'));
+    return context.json({ message: result.message });
+  });
   app.get('/joke', async (context) => {
     const result = await botCommands.joke(context.req.query('category') ?? 'Any');
     return context.json({ message: result.message });

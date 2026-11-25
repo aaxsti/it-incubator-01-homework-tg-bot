@@ -5,6 +5,8 @@ import { createGetJokeUseCase } from './application/show-joke-use-case.mjs';
 import { fetchJoke } from './adapters/joke-api-client.mjs';
 import { fetchExchangeRate } from './adapters/frankfurter-api-client.mjs';
 import { createConvertCurrencyUseCase } from './application/convert-currency-use-case.mjs';
+import { fetchWeather } from './adapters/weather-api-client.mjs';
+import { createShowWeatherUseCase } from './application/show-weather-use-case.mjs';
 import { createTelegramApiClient } from './adapters/telegram-api-client.mjs';
 import { createTelegramUpdateHandler } from './application/handle-telegram-update.mjs';
 import { TELEGRAM_BOT_TOKEN } from '../token.mjs';
@@ -16,7 +18,8 @@ const webhookSecret = randomBytes(32).toString('hex');
 
 const getJoke = createGetJokeUseCase({ fetchJoke });
 const convertCurrency = createConvertCurrencyUseCase({ fetchExchangeRate });
-const botCommands = createBotCommands({ getJoke, convertCurrency });
+const showWeather = createShowWeatherUseCase({ fetchWeather });
+const botCommands = createBotCommands({ getJoke, convertCurrency, showWeather });
 const telegram = createTelegramApiClient({ token: TELEGRAM_BOT_TOKEN });
 const handleTelegramUpdate = createTelegramUpdateHandler({
   botCommands,
