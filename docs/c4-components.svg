@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="540" viewBox="0 0 1160 540" role="img" aria-labelledby="title description">
+  <title id="title">Telegram bot component diagram</title>
+  <desc id="description">A Telegram user sends commands through the Telegram Bot API and adapter to presentation and application components. The get joke use case calls JokeAPI through its adapter.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#526273"/></marker>
+    <style>
+      text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.box{rx:11;stroke-width:2}.name{font-size:15px;font-weight:700}.description{font-size:12px;fill:#405266}.edge{stroke:#526273;stroke-width:2;fill:none;marker-end:url(#arrow)}.label{font-size:11px;fill:#405266}.boundary{fill:#f8fafc;stroke:#8798aa;stroke-width:2;stroke-dasharray:7 5}
+    </style>
+  </defs>
+  <rect width="1160" height="540" rx="16" fill="#f2f6fa"/>
+  <text class="title" x="30" y="42">Telegram bot backend · C4 component diagram</text>
+  <rect class="box" x="30" y="214" width="150" height="78" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="49" y="244">Telegram user</text><text class="description" x="49" y="266">Sends bot commands</text>
+  <rect class="box" x="222" y="202" width="174" height="102" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="241" y="233">Telegram Bot API</text><text class="description" x="241" y="255">Receives updates</text><text class="description" x="241" y="274">Sends bot replies</text>
+  <rect class="boundary" x="440" y="93" width="474" height="374" rx="14"/>
+  <text class="name" x="460" y="121">Telegram bot backend</text>
+  <rect class="box" x="464" y="153" width="194" height="86" fill="#fff1d6" stroke="#d8a23b"/>
+  <text class="name" x="482" y="184">Telegram API client</text><text class="description" x="482" y="205">setWebhook / sendMessage</text>
+  <rect class="box" x="696" y="153" width="194" height="86" fill="#e8f4e9" stroke="#72a878"/>
+  <text class="name" x="714" y="184">Hono presentation</text><text class="description" x="714" y="205">HTTP routes and update handling</text>
+  <rect class="box" x="696" y="276" width="194" height="78" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="714" y="306">Bot commands</text><text class="description" x="714" y="328">start / convert / weather / help</text>
+  <rect class="box" x="696" y="382" width="194" height="65" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="714" y="410">Get joke use case</text><text class="description" x="714" y="430">Validates and formats joke</text>
+  <rect class="box" x="944" y="382" width="190" height="65" fill="#fff1d6" stroke="#d8a23b"/>
+  <text class="name" x="962" y="410">Joke API client</text><text class="description" x="962" y="430">Safe mode, category</text>
+  <rect class="box" x="944" y="202" width="190" height="102" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="962" y="233">JokeAPI</text><text class="description" x="962" y="255">v2.jokeapi.dev</text><text class="description" x="962" y="274">External API</text>
+  <path class="edge" d="M180 253 H222"/><text class="label" x="182" y="241">commands</text>
+  <path class="edge" d="M396 228 H464"/><text class="label" x="400" y="215">updates / replies</text>
+  <path class="edge" d="M658 196 H696"/><text class="label" x="658" y="184">updates</text>
+  <path class="edge" d="M793 239 V276"/><text class="label" x="800" y="263">dispatch</text>
+  <path class="edge" d="M793 239 V382"/><text class="label" x="802" y="368">/joke [category]</text>
+  <path class="edge" d="M890 414 H944"/><text class="label" x="892" y="402">fetch joke</text>
+  <path class="edge" d="M1039 382 V304"/><text class="label" x="1048" y="347">HTTPS</text>
+</svg>

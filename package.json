@@ -1,0 +1,24 @@
+{
+  "name": "it-incubator-01-homework-tg-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot backend built with Hono and a three-layer architecture",
+  "main": "src/index.mjs",
+  "scripts": {
+    "start": "node src/index.mjs",
+    "dev": "node --watch src/index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaxsti/it-incubator-01-homework-tg-bot.git"
+  },
+  "keywords": [],
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/aaxsti/it-incubator-01-homework-tg-bot/issues"
+  },
+  "homepage": "https://github.com/aaxsti/it-incubator-01-homework-tg-bot#readme",
+  "dependencies": {
+    "@hono/node-server": "^2.1.11",
+    "hono": "^4.13.22"
+  }
+}

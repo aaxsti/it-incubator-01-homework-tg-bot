@@ -1,0 +1,27 @@
+@startuml 03-component
+!include <C4/C4_Component>
+
+title Telegram bot — component diagram
+
+Person(user, "Telegram user", "Sends bot commands")
+System_Ext(telegram, "Telegram Bot API", "Receives updates and sends replies")
+System_Ext(jokeApi, "JokeAPI", "v2.jokeapi.dev, safe-mode")
+
+Container_Boundary(bot, "Telegram bot backend") {
+    Component(presentation, "Hono presentation", "Hono", "HTTP routes and Telegram update handling")
+    Component(commandUseCase, "Bot commands", "Application", "start, convert, weather and command list")
+    Component(jokeUseCase, "Get joke use case", "Application", "Validates category and formats single or twopart jokes")
+    Component(telegramAdapter, "Telegram API client", "Adapter", "Registers webhook and sends replies with sendMessage")
+    Component(jokeAdapter, "Joke API client", "Adapter", "Requests safe jokes by category")
+}
+
+Rel(user, telegram, "Sends commands")
+Rel(telegram, telegramAdapter, "Updates and sendMessage")
+Rel(telegramAdapter, presentation, "Delivers updates")
+Rel(presentation, commandUseCase, "Dispatches commands")
+Rel(presentation, jokeUseCase, "Runs /joke [category]")
+Rel(jokeUseCase, jokeAdapter, "Requests joke")
+Rel(jokeAdapter, jokeApi, "HTTPS /joke/{category}?safe-mode")
+
+SHOW_LEGEND()
+@enduml
