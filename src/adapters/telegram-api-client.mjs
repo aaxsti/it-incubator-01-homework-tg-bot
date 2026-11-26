@@ -1,32 +1,26 @@
-const TELEGRAM_API_BASE_URL = 'https://api.telegram.org';
+import { TELEGRAM_BOT_TOKEN } from '../../token.mjs';
 
-export function createTelegramApiClient({ token }) {
-  if (!token) {
-    throw new Error('TELEGRAM_BOT_TOKEN is required');
-  }
-
-  async function call(method, body) {
-    const response = await fetch(`${TELEGRAM_API_BASE_URL}/bot${token}/${method}`, {
+export const telegramApiClient = {
+  async call(method, body) {
+    if (!TELEGRAM_BOT_TOKEN) throw new Error('TELEGRAM_BOT_TOKEN is required');
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/${method}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(body),
     });
     const result = await response.json();
-
     if (!response.ok || !result.ok) {
       throw new Error(`Telegram API ${method} failed: ${result.description ?? response.statusText}`);
     }
-
     return result.result;
-  }
-
-  return {
-    sendMessage: (chatId, text) => call('sendMessage', { chat_id: chatId, text }),
-    sendPhoto: (chatId, photo, caption) => call('sendPhoto', { chat_id: chatId, photo, caption }),
-    setWebhook: (url, secretToken) => call('setWebhook', {
-      url,
-      secret_token: secretToken,
-      allowed_updates: ['message'],
-    }),
-  };
-}
+  },
+  sendMessage(chatId, text) {
+    return telegramApiClient.call('sendMessage', { chat_id: chatId, text });
+  },
+  sendPhoto(chatId, photo, caption) {
+    return telegramApiClient.call('sendPhoto', { chat_id: chatId, photo, caption });
+  },
+  setWebhook(url, secretToken) {
+    return telegramApiClient.call('setWebhook', { url, secret_token: secretToken, allowed_updates: ['message'] });
+  },
+};
