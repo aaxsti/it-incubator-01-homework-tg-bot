@@ -20,6 +20,12 @@ The backend is organized into presentation, application, and adapter modules. Ea
 - In Telegram, use `/convert 10 USD EUR` to convert currencies, `/weather Istanbul` for current weather, `/joke` and `/joke Programming` for jokes, or `/dog` to receive a random dog photo. `/help` lists the supported bot commands.
 - Telegram sends updates to `POST /telegram/webhook`. At startup the app registers `TELEGRAM_WEBHOOK_URL` with Telegram, defaulting to `https://desktop-7m4fs3b.tail7506bd.ts.net`. The endpoint verifies Telegram's secret header. Unknown commands and ordinary text receive a prompt to use `/help`. The bot token is imported from the ignored `token.mjs` file as `TELEGRAM_BOT_TOKEN`.
 
+### Joke command examples
+
+The screenshot below shows the bot responses to `/joke` and `/joke` with a category.
+
+![Telegram bot responses to /joke and a categorized /joke command](docs/telegram-joke-examples.png)
+
 The HTTP routes expose command responses as JSON, while Telegram messages arrive through the webhook endpoint. Weather, currency, joke, and dog use cases call their respective external API clients directly.
 
 JokeAPI was selected because its public v2 API provides categorized jokes, supports single-part and setup/delivery formats, and offers safe mode without requiring an API key.
