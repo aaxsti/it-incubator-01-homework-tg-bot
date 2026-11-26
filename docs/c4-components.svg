@@ -1,37 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="540" viewBox="0 0 1160 540" role="img" aria-labelledby="title description">
-  <title id="title">Telegram bot component diagram</title>
-  <desc id="description">A Telegram user sends commands through the Telegram Bot API and adapter to presentation and application components. The get joke use case calls JokeAPI through its adapter.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="900" viewBox="0 0 1680 900" role="img" aria-labelledby="title description">
+  <title id="title">Telegram bot backend C4 component diagram</title>
+  <desc id="description">Telegram users interact through the Telegram Bot API with a Hono presentation layer, application command and use case objects, and API adapter objects for Telegram, Frankfurter, Open-Meteo, JokeAPI, and Dog CEO.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#526273"/></marker>
     <style>
-      text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:23px;font-weight:700}.box{rx:11;stroke-width:2}.name{font-size:15px;font-weight:700}.description{font-size:12px;fill:#405266}.edge{stroke:#526273;stroke-width:2;fill:none;marker-end:url(#arrow)}.label{font-size:11px;fill:#405266}.boundary{fill:#f8fafc;stroke:#8798aa;stroke-width:2;stroke-dasharray:7 5}
+      text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:25px;font-weight:700}.subtitle{font-size:13px;fill:#526273}.box{rx:10;stroke-width:2}.name{font-size:14px;font-weight:700}.desc{font-size:11px;fill:#405266}.label{font-size:10px;fill:#405266}.boundary{fill:#f8fafc;stroke:#8798aa;stroke-width:2;stroke-dasharray:8 6}.layer{fill:#f1f6fb;stroke:#b6c4d1;stroke-width:1.5;stroke-dasharray:5 4}.edge{stroke:#526273;stroke-width:1.8;fill:none;marker-end:url(#arrow)}
     </style>
   </defs>
-  <rect width="1160" height="540" rx="16" fill="#f2f6fa"/>
-  <text class="title" x="30" y="42">Telegram bot backend · C4 component diagram</text>
-  <rect class="box" x="30" y="214" width="150" height="78" fill="#e9eef5" stroke="#8798aa"/>
-  <text class="name" x="49" y="244">Telegram user</text><text class="description" x="49" y="266">Sends bot commands</text>
-  <rect class="box" x="222" y="202" width="174" height="102" fill="#e9eef5" stroke="#8798aa"/>
-  <text class="name" x="241" y="233">Telegram Bot API</text><text class="description" x="241" y="255">Receives updates</text><text class="description" x="241" y="274">Sends bot replies</text>
-  <rect class="boundary" x="440" y="93" width="474" height="374" rx="14"/>
-  <text class="name" x="460" y="121">Telegram bot backend</text>
-  <rect class="box" x="464" y="153" width="194" height="86" fill="#fff1d6" stroke="#d8a23b"/>
-  <text class="name" x="482" y="184">Telegram API client</text><text class="description" x="482" y="205">setWebhook / sendMessage</text>
-  <rect class="box" x="696" y="153" width="194" height="86" fill="#e8f4e9" stroke="#72a878"/>
-  <text class="name" x="714" y="184">Hono presentation</text><text class="description" x="714" y="205">HTTP routes and update handling</text>
-  <rect class="box" x="696" y="276" width="194" height="78" fill="#e4f0ff" stroke="#6b9bd1"/>
-  <text class="name" x="714" y="306">Bot commands</text><text class="description" x="714" y="328">start / convert / weather / help</text>
-  <rect class="box" x="696" y="382" width="194" height="65" fill="#e4f0ff" stroke="#6b9bd1"/>
-  <text class="name" x="714" y="410">Get joke use case</text><text class="description" x="714" y="430">Validates and formats joke</text>
-  <rect class="box" x="944" y="382" width="190" height="65" fill="#fff1d6" stroke="#d8a23b"/>
-  <text class="name" x="962" y="410">Joke API client</text><text class="description" x="962" y="430">Safe mode, category</text>
-  <rect class="box" x="944" y="202" width="190" height="102" fill="#e9eef5" stroke="#8798aa"/>
-  <text class="name" x="962" y="233">JokeAPI</text><text class="description" x="962" y="255">v2.jokeapi.dev</text><text class="description" x="962" y="274">External API</text>
-  <path class="edge" d="M180 253 H222"/><text class="label" x="182" y="241">commands</text>
-  <path class="edge" d="M396 228 H464"/><text class="label" x="400" y="215">updates / replies</text>
-  <path class="edge" d="M658 196 H696"/><text class="label" x="658" y="184">updates</text>
-  <path class="edge" d="M793 239 V276"/><text class="label" x="800" y="263">dispatch</text>
-  <path class="edge" d="M793 239 V382"/><text class="label" x="802" y="368">/joke [category]</text>
-  <path class="edge" d="M890 414 H944"/><text class="label" x="892" y="402">fetch joke</text>
-  <path class="edge" d="M1039 382 V304"/><text class="label" x="1048" y="347">HTTPS</text>
+  <rect width="1680" height="900" rx="16" fill="#f2f6fa"/>
+  <text class="title" x="32" y="42">Telegram bot backend · C4 component diagram</text>
+  <text class="subtitle" x="32" y="66">Object modules with direct imports; application use cases call API adapters.</text>
+
+  <!-- External actors -->
+  <rect class="box" x="28" y="140" width="190" height="82" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="48" y="173">Telegram user</text><text class="desc" x="48" y="196">Commands and regular text</text>
+  <rect class="box" x="28" y="315" width="205" height="116" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="47" y="348">Telegram Bot API</text><text class="desc" x="47" y="373">Delivers webhook updates</text><text class="desc" x="47" y="393">Sends bot replies</text>
+
+  <!-- Backend boundary and layers -->
+  <rect class="boundary" x="270" y="92" width="1040" height="770" rx="14"/>
+  <text class="name" x="292" y="122">Telegram bot backend</text>
+  <rect class="layer" x="294" y="144" width="228" height="682" rx="11"/>
+  <text class="name" x="312" y="170">Presentation</text>
+  <rect class="box" x="312" y="196" width="192" height="120" fill="#e8f4e9" stroke="#72a878"/>
+  <text class="name" x="328" y="226">Hono app</text><text class="desc" x="328" y="249">Root health endpoint</text>
+  <rect class="box" x="312" y="346" width="192" height="168" fill="#e8f4e9" stroke="#72a878"/>
+  <text class="name" x="328" y="376">Telegram message router</text><text class="desc" x="328" y="400">GET command endpoints</text><text class="desc" x="328" y="420">Webhook secret check</text><text class="desc" x="328" y="440">Forwards Telegram update</text>
+  <rect class="box" x="312" y="548" width="192" height="105" fill="#e8f4e9" stroke="#72a878"/>
+  <text class="name" x="328" y="579">Server startup</text><text class="desc" x="328" y="603">Starts Hono and registers</text><text class="desc" x="328" y="622">the webhook</text>
+
+  <rect class="layer" x="542" y="144" width="400" height="682" rx="11"/>
+  <text class="name" x="560" y="170">Application</text>
+  <rect class="box" x="560" y="196" width="364" height="104" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="578" y="227">Bot commands</text><text class="desc" x="578" y="250">Maps /start, /convert, /weather, /joke, /dog, /help</text><text class="desc" x="578" y="270">to their command behavior and use cases</text>
+  <rect class="box" x="560" y="330" width="364" height="90" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="578" y="361">Telegram update handler</text><text class="desc" x="578" y="384">Dispatches commands; unknown text prompts /help</text>
+  <rect class="box" x="560" y="454" width="170" height="112" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="576" y="485">Currency conversion</text><text class="desc" x="576" y="508">Validates and formats</text><text class="desc" x="576" y="527">the converted amount</text>
+  <rect class="box" x="744" y="454" width="180" height="112" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="760" y="485">Weather lookup</text><text class="desc" x="760" y="508">Formats current weather</text><text class="desc" x="760" y="527">for a city</text>
+  <rect class="box" x="560" y="596" width="170" height="112" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="576" y="627">Joke lookup</text><text class="desc" x="576" y="650">Validates category and</text><text class="desc" x="576" y="669">formats a safe joke</text>
+  <rect class="box" x="744" y="596" width="180" height="112" fill="#e4f0ff" stroke="#6b9bd1"/>
+  <text class="name" x="760" y="627">Dog image lookup</text><text class="desc" x="760" y="650">Returns image URL</text><text class="desc" x="760" y="669">and caption</text>
+
+  <rect class="layer" x="962" y="144" width="326" height="682" rx="11"/>
+  <text class="name" x="980" y="170">Adapters</text>
+  <rect class="box" x="980" y="196" width="290" height="86" fill="#fff1d6" stroke="#d8a23b"/>
+  <text class="name" x="998" y="227">Telegram API client</text><text class="desc" x="998" y="250">setWebhook, sendMessage, sendPhoto</text>
+  <rect class="box" x="980" y="330" width="290" height="76" fill="#fff1d6" stroke="#d8a23b"/>
+  <text class="name" x="998" y="360">Frankfurter API client</text><text class="desc" x="998" y="383">Fetches exchange rates</text>
+  <rect class="box" x="980" y="442" width="290" height="76" fill="#fff1d6" stroke="#d8a23b"/>
+  <text class="name" x="998" y="472">Open-Meteo API client</text><text class="desc" x="998" y="495">Geocoding and current weather</text>
+  <rect class="box" x="980" y="554" width="290" height="76" fill="#fff1d6" stroke="#d8a23b"/>
+  <text class="name" x="998" y="584">Joke API client</text><text class="desc" x="998" y="607">Fetches safe-mode jokes</text>
+  <rect class="box" x="980" y="666" width="290" height="76" fill="#fff1d6" stroke="#d8a23b"/>
+  <text class="name" x="998" y="696">Dog API client</text><text class="desc" x="998" y="719">Fetches random image URLs</text>
+
+  <!-- External service boxes -->
+  <rect class="box" x="1360" y="140" width="290" height="86" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="1378" y="172">Frankfurter API</text><text class="desc" x="1378" y="195">Currency reference rates</text>
+  <rect class="box" x="1360" y="270" width="290" height="86" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="1378" y="302">Open-Meteo APIs</text><text class="desc" x="1378" y="325">Geocoding and current weather</text>
+  <rect class="box" x="1360" y="400" width="290" height="86" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="1378" y="432">JokeAPI</text><text class="desc" x="1378" y="455">v2.jokeapi.dev · safe-mode</text>
+  <rect class="box" x="1360" y="530" width="290" height="86" fill="#e9eef5" stroke="#8798aa"/>
+  <text class="name" x="1378" y="562">Dog CEO API</text><text class="desc" x="1378" y="585">Random dog image URLs</text>
+
+  <!-- Relationships -->
+  <path class="edge" d="M123 222 V315"/><text class="label" x="132" y="272">uses bot</text>
+  <path class="edge" d="M233 365 H270 V430 H312"/><text class="label" x="239" y="354">webhook update</text>
+  <path class="edge" d="M408 316 H300 V430 H312"/><text class="label" x="304" y="332">mounts routes</text>
+  <path class="edge" d="M504 380 H530 V248 H560"/><text class="label" x="510" y="370">HTTP command</text>
+  <path class="edge" d="M504 430 H530 V375 H560"/><text class="label" x="507" y="449">authenticated update</text>
+  <path class="edge" d="M742 330 V300"/><text class="label" x="750" y="320">dispatches command</text>
+  <path class="edge" d="M924 248 H936 V435 H645 V454"/><text class="label" x="650" y="431">/convert</text>
+  <path class="edge" d="M924 248 H938 V442 H834 V454"/><text class="label" x="840" y="439">/weather</text>
+  <path class="edge" d="M924 248 H940 V580 H645 V596"/><text class="label" x="650" y="578">/joke</text>
+  <path class="edge" d="M924 248 H940 V580 H834 V596"/><text class="label" x="840" y="578">/dog</text>
+  <path class="edge" d="M645 454 V432 H950 V368 H980"/><text class="label" x="932" y="358">rate</text>
+  <path class="edge" d="M924 510 H980"/><text class="label" x="930" y="498">weather</text>
+  <path class="edge" d="M645 596 V580 H950 V592 H980"/><text class="label" x="930" y="572">joke</text>
+  <path class="edge" d="M924 652 H950 V704 H980"/><text class="label" x="929" y="640">image</text>
+  <path class="edge" d="M312 600 H300 V256 H312"/><text class="label" x="274" y="474">starts</text>
+  <path class="edge" d="M504 600 H528 V132 H1296 V239 H1270"/><text class="label" x="1090" y="128">registers webhook</text>
+  <path class="edge" d="M924 375 H940 V239 H980"/><text class="label" x="928" y="363">sends replies</text>
+  <path class="edge" d="M1270 368 H1316 V183 H1360"/><path class="edge" d="M1270 480 H1328 V313 H1360"/><path class="edge" d="M1270 592 H1340 V443 H1360"/><path class="edge" d="M1270 704 H1348 V573 H1360"/>
+  <path class="edge" d="M1270 239 H1335 V875 H14 V373 H28"/><text class="label" x="638" y="891">HTTPS: setWebhook, sendMessage, sendPhoto</text>
+
+  <text class="subtitle" x="292" y="846">HTTP command endpoints: /start · /convert · /weather · /joke · /dog</text>
 </svg>
